@@ -15,16 +15,16 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-missing=0
+has_missing_files=0
 for rel_path in "$@"; do
   src="$DRAFT_DIR/$rel_path"
   if [[ ! -f "$src" ]]; then
     echo "未找到草稿文件: $rel_path" >&2
-    missing=1
+    has_missing_files=1
   fi
 done
 
-if [[ "$missing" -ne 0 ]]; then
+if [[ "$has_missing_files" -eq 1 ]]; then
   exit 1
 fi
 
