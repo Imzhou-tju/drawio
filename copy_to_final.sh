@@ -15,14 +15,22 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
+missing=0
+for rel_path in "$@"; do
+  src="$DRAFT_DIR/$rel_path"
+  if [[ ! -f "$src" ]]; then
+    echo "未找到草稿文件: $rel_path" >&2
+    missing=1
+  fi
+done
+
+if [[ "$missing" -ne 0 ]]; then
+  exit 1
+fi
+
 for rel_path in "$@"; do
   src="$DRAFT_DIR/$rel_path"
   dst="$FINAL_DIR/$rel_path"
-
-  if [[ ! -f "$src" ]]; then
-    echo "未找到草稿文件: $rel_path" >&2
-    exit 1
-  fi
 
   mkdir -p "$(dirname "$dst")"
   cp -f "$src" "$dst"
